@@ -62,3 +62,10 @@ func TestMultipleChunks(t *testing.T) {
 		t.Errorf("expected 33, got %d", result)
 	}
 }
+
+func TestChunkOdd(t *testing.T) {
+	result := maxChunks([]int{12, 22, 3, 5, 1})
+	if result != 22 {
+		t.Errorf("expected 22, got %d", result)
+	}
+}
