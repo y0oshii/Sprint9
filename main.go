@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"time"
 	"sync"
+	"time"
 )
 
 const (
@@ -20,7 +20,7 @@ func generateRandomElements(size int) []int {
 	rand.NewSource(time.Now().Unix())
 
 	result := make([]int, size)
-	for i := 0; i < size; i ++ {
+	for i := 0; i < size; i++ {
 		result[i] = rand.Int()
 	}
 
@@ -58,9 +58,13 @@ func maxChunks(data []int) int {
 	maxValue := make([]int, CHUNKS)
 	wg.Add(CHUNKS)
 
-	for i := 0; i < CHUNKS; i ++ {
+	for i := 0; i < CHUNKS; i++ {
 		start := i * chunkSize
 		end := start + chunkSize
+
+		if i == CHUNKS-1 {
+			end = len(data)
+		}
 
 		chunk := data[start:end]
 
@@ -78,7 +82,7 @@ func main() {
 	data := generateRandomElements(SIZE)
 
 	fmt.Println("Ищем максимальное значение в один поток")
-	
+
 	start := time.Now()
 	max := maximum(data)
 	elapsed := time.Since(start).Milliseconds()
@@ -86,7 +90,7 @@ func main() {
 	fmt.Printf("Максимальное значение элемента: %d\nВремя поиска: %d ms\n", max, elapsed)
 
 	fmt.Printf("Ищем максимальное значение в %d потоков", CHUNKS)
-	
+
 	start = time.Now()
 	max = maxChunks(data)
 	elapsed = time.Since(start).Milliseconds()
